@@ -10,7 +10,8 @@ analysis pipeline:
 - `rtdetr_manga/`: ONNX inference entry point for manga body, face, frame, and
   text detection.
 - `ppocr_dataset_tools/`: scripts for auditing and preparing unified manga OCR
-  annotations for PaddleOCR.
+  annotations for PaddleOCR, plus the custom PP-OCRv6 manga text-detection
+  training configuration.
 
 ## Data and model files
 
@@ -20,6 +21,13 @@ from its official source and comply with its license and access terms.
 
 Large checkpoints are intentionally excluded from Git. Configure their paths
 through the command-line arguments documented by each script.
+
+The manga text detector was trained from PaddleOCR revision
+`2661c7c0ef5c613e8f93c6e93b2e052399f0f854`. Its portable training config is
+[`ppocr_dataset_tools/configs/PP-OCRv6_medium_det_manga.yml`](ppocr_dataset_tools/configs/PP-OCRv6_medium_det_manga.yml).
+The best checkpoint and validation metrics are stored separately in the private
+Hugging Face repository
+[`lisaaaa1/manga-ppocrv6-detector`](https://huggingface.co/lisaaaa1/manga-ppocrv6-detector).
 
 ## Environment
 
@@ -44,4 +52,3 @@ variables. Never commit `.env` files, private keys, datasets, or task outputs.
 
 This is a research code release. Dataset preparation and model checkpoints are
 kept separate from the source repository.
-

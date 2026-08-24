@@ -1,0 +1,10 @@
+numpy>=1.26,<3
+pillow>=10
+tqdm>=4.66
+h5py>=3.11
+torch>=2.7.1
+torchvision>=0.22.1
+transformers>=4.56
+safetensors>=0.4
+huggingface-hub>=0.25
+sentencepiece>=0.2

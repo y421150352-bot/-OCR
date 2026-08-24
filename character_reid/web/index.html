@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>漫画角色与对白分析台</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='review.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vlm.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark">漫</span><div><strong>漫画角色分析台</strong><small>角色聚类 · 对白人物匹配</small></div></div>
+    <form id="upload-form" class="upload-form">
+      <label class="vlm-toggle" title="Run MagiV3 speech-bubble tail detection when the model is installed."><input id="tails-enabled" type="checkbox"> Bubble tails</label>
+      <label class="vlm-toggle" title="Use Gemini to verify dialogue speakers and ReID identities after review."><input id="vlm-enabled" type="checkbox"> Gemini VLM</label>
+      <label class="vlm-field">Model<input id="vlm-model" type="text" value="gemini-3.1-pro-preview" spellcheck="false"></label>
+      <label class="vlm-field">Speaker<input id="vlm-first-pass-threshold" type="number" min="0" max="1" step="0.01" value="0.80"></label>
+      <label class="vlm-field">Identity<input id="vlm-identity-threshold" type="number" min="0" max="1" step="0.01" value="0.70"></label>
+      <label class="file-button">选择漫画页<input id="pages" name="pages" type="file" accept="image/*" multiple required></label>
+      <label class="file-button secondary" title="已有 RT-DETR 结果时可直接上传">检测 JSON（可选）<input id="detections" name="detections" type="file" accept="application/json,.json"></label>
+      <button id="run-button" type="submit">开始分析</button>
+    </form>
+    <div id="status-pill" class="status-pill idle"><span></span>等待上传</div>
+  </header>
+  <div id="analysis-progress" class="analysis-progress hidden">
+    <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+    <span id="progress-stage">等待开始</span>
+    <strong id="elapsed-time">00:00</strong>
+  </div>
+
+  <main class="workspace empty" id="workspace">
+    <aside class="clusters-panel">
+      <div class="panel-heading cluster-heading"><div><b>角色簇审核</b><small id="cluster-count">0 个角色</small></div><div class="heading-actions"><button id="merge-clusters" disabled>合并选中</button><button id="save-names" disabled>保存命名</button></div></div>
+      <div id="clusters" class="clusters"></div>
+      <div class="review-footer"><div id="new-role-dropzone" class="new-role-dropzone">把人物拖到这里，新建一个角色</div><p id="review-tip">拖拽人物到角色卡可调整参考库；移出的图片仍会自动检索，不会从漫画中删除</p><button id="confirm-review" disabled>建立角色库、检索全部人物并分析对白</button></div>
+    </aside>
+    <section class="viewer-panel">
+      <div class="viewer-toolbar">
+        <div class="page-nav"><button id="prev-page" disabled>‹</button><span id="page-label">尚未分析</span><button id="next-page" disabled>›</button></div>
+        <div class="legend"><i class="red"></i>对白 <i class="blue"></i>人物 <i class="orange"></i>对应 <i class="purple"></i>尾巴射线</div>
+      </div>
+      <div id="viewer" class="viewer">
+        <div class="welcome"><span class="welcome-icon">漫</span><h1>放入漫画页，自动整理人物与对白</h1><p>系统会检测漫画元素、聚合同一角色，并将每条对白连接到说话人物。</p><label class="welcome-button">选择图片<input id="welcome-files" type="file" accept="image/*" multiple></label></div>
+        <canvas id="canvas"></canvas>
+      </div>
+      <div id="thumbs" class="page-thumbs"></div>
+    </section>
+    <aside class="dialogues-panel">
+      <div class="panel-heading"><div><b>对白对应</b><small id="dialogue-count">0 条对白</small></div><button id="toggle-log">运行日志</button></div>
+      <div id="dialogues" class="dialogues"></div><pre id="log" class="log hidden"></pre>
+    </aside>
+  </main>
+  <div id="toast" class="toast"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

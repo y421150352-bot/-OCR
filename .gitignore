@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments and secrets
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Datasets and copyrighted source material
+data/
+data_strict/
+dataset/
+datasets/
+COO*/
+Manga109*/
+uploads/
+input/
+test_input/
+*.jsonl
+
+# Model weights and feature caches
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.safetensors
+*.engine
+*.npy
+*.npz
+pretrained/
+weights/
+checkpoints/
+cache/
+
+# Generated outputs
+runs/
+outputs/
+output/
+results/
+result/
+logs/
+*.log
+*.zip
+*.tar
+*.tar.gz
+*.7z
+detections.json
+pipeline_result.json
+vlm_raw_responses.jsonl
+ocr_page_bundles/
+magiv3_output_all/
+vlm_panel_boards/
+vlm_identity_top5_boards/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
